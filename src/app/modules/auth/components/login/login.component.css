@@ -1,6 +1,7 @@
 a {
     text-decoration: none;
     color: #6871f1;
+    cursor: pointer;
 }
 
 hr {
@@ -26,6 +27,30 @@ hr {
     display: flex;
     justify-content: center;
     gap: 50px;
+}
+
+.login___security-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login__security-code {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.code-number {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #121318;
+    color: white;
+    border-radius: 10px;
 }
 
 .social-icon {
@@ -76,12 +101,13 @@ hr {
     background-color: #6871f1;
     border: none;
     border-radius: 10px;
+    color: white;
+    font-size: 15px;
 }
 
 .login__title {
     font-size: 2vw;
-    margin-bottom: 50px;
-    color: white;
+    margin-bottom: 20px;
 }
 
 .login__container {
@@ -91,12 +117,25 @@ hr {
     display: flex;
 }
 
+.form-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
 .login__side-pic {
     height: 100%;
     width: 45%;
     background-image: url(../../../../../assets/BG.svg);
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.register-sign-in {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .side-placeholder {
@@ -132,6 +171,7 @@ hr {
     height: 24px;
     position: relative;
     right: 0px;
+    cursor: pointer
 }
 
 .right-inner-addon {
@@ -146,7 +186,6 @@ hr {
     position: absolute;
     right: 0px;
     padding: 18px 20px;
-    pointer-events: none;
 }
 
 .agreement-field {
@@ -234,4 +273,47 @@ hr {
     display: none!important;
    }
    
+   .radio-buttons {
+    display: flex;
+    flex-direction: column;
+    color: white;
+  }
+  
+  .radio-button {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .radio-button input[type="radio"] {
+    display: none;
+  }
+  
+  .radio-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #6871f1;
+    position: relative;
+    margin-right: 10px;
+  }
+  
+  .radio-circle::before {
+    content: "";
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #6871f1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .radio-button input[type="radio"]:checked + .radio-circle::before {
+    transform: translate(-50%, -50%) scale(1);
+  }
 

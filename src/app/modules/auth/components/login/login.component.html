@@ -7,52 +7,112 @@
         <div class="side-placeholder"></div>
     </div>
     <div class="login__form-container">
-        <div class="login_form-box">
-            <p class="login__title">Create an Account</p>
-
-            <input type="text" class="auth__input-field" placeholder="Enter Email or Phone Number">
-
-            <div class="right-inner-addon input-container">
-                <img src="../../../../../assets/show pass.svg" class="pass-icon">
-                <input type="text"
-                    class="auth__input-field"
-                    placeholder="Password" />
-            </div>
-
-            <div class="right-inner-addon input-container">
-                <img src="../../../../../assets/show pass.svg" class="pass-icon">
-                <input type="text"
-                    class="auth__input-field"
-                    placeholder="Confirm Password" />
-            </div>
+        <div class="login__form-box" *ngIf="loginMode === 'login'">
+            <ng-container *ngTemplateOutlet="login"></ng-container>
+        </div>
+        <div class="login__form-box" *ngIf="loginMode === 'recovery'">
+            <ng-container *ngTemplateOutlet="recoverPass"></ng-container>
+        </div>
+        <div class="login__form-box" *ngIf="loginMode === 'confirm'">
+            <ng-container *ngTemplateOutlet="confirmation"></ng-container>
+        </div>
+        <div class="login__form-box" *ngIf="loginMode === 'code'">
+            <ng-container *ngTemplateOutlet="securityCode"></ng-container>
         </div>
     </div>
 </div>
 
-
-
-
- <ng-template #login>
-    <div class="login__form-box">
-        <p class="login__title">Sign In to Dynamic</p>
-
-        <input type="text" class="auth__input-field" placeholder="Email">
-
-        <div class="right-inner-addon input-container">
-            <img src="../../../../../assets/show pass.svg" class="pass-icon">
-            <input type="text"
-                   class="auth__input-field"
-                   placeholder="Password" />
+<ng-template #securityCode>
+        <div class="login___security-container">
+            <p class="login__title">Enter your security code</p>
+            <p>We texted your code to +1 234 567 890</p>    
         </div>
 
+        <div class="login__security-code">
+            <div class="code-number">
+                1
+            </div>
+            <div class="code-number">
+                1
+            </div>
+            <div class="code-number">
+                1
+            </div>
+            <div class="code-number">
+                1
+            </div>
+        </div>
+
+        <div class="button-field">
+            <button class="login-btn" (click)="changeMode('endCode')">Continue</button>
+        </div>
+</ng-template>
+
+
+<ng-template #confirmation>
+        <div>
+            <p class="login__title">Let`s confirm it`s really you</p>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi, fugiat.</p>
+        </div>
+
+        <div>
+            <label class="radio-button">
+                <input type="radio" name="option" value="option1">
+                <div class="radio-circle"></div>
+                <span class="radio-label">Get the code by text message</span>
+            </label>
+            <input type="text" class="auth__input-field" placeholder="Enter Phone number">
+        </div>
+
+        <div>
+            <label class="radio-button">
+                <input type="radio" name="option" value="option2">
+                <div class="radio-circle"></div>
+                <span class="radio-label">Get the code by email at</span>
+            </label>
+            <input type="text" class="auth__input-field" placeholder="Enter Email">
+        </div>
+
+        <div class="button-field">
+            <button class="login-btn" (click)="changeMode('code')">Continue</button>
+        </div>
+</ng-template>
+
+
+<ng-template #recoverPass>
+        <div>
+            <p class="login__title">Password Recovery</p>
+            <p>Enter your email to recover your password</p>
+        </div>
+
+        <input type="text" class="auth__input-field" placeholder="Enter Email">
+        
+        <div class="button-field">
+            <button class="login-btn" (click)="changeMode('confirm')">Reset Password</button>
+        </div>
+</ng-template>
+
+ <ng-template #login>
+        <p class="login__title">Sign In to Dynamic</p>
+        <div class="form-container" [formGroup]="loginFormGroup">
+            <input type="text" class="auth__input-field" placeholder="Email" formControlName="email">
+
+            <div class="right-inner-addon input-container">
+                <input type="{{ showPassword ? 'text' : 'password' }}"
+                       class="auth__input-field"
+                       placeholder="Password" 
+                       formControlName="password"/>
+                <img (click)="passMode()" src="../../../../../assets/show_pass.svg" class="pass-icon">
+            </div>
+        </div>
         <div class="info-field">
             <p>Scan to login</p>
 
-            <a href="#">Forgot password?</a>
+            <a (click)="changeMode('recover')">Forgot password?</a>
         </div>
 
         <div class="register-field">
-            <p>If you don’t have an account you can <a href="#"> Register Here!</a></p>
+            <p>If you don’t have an account you can <a routerLink="/auth/register"> Register Here!</a></p>
         </div>
 
         <div class="alternative-field">
@@ -76,21 +136,7 @@
        
 
         <div class="button-field">
-            <button class="login-btn">Sign In</button>
+            <button class="login-btn" (click)="loginUser()">Sign In</button>
         </div>
-    </div>
  </ng-template>
  
- <!-- <div class="right-inner-addon input-container">
-                <img src="../../../../../assets/show pass.svg" class="pass-icon">
-                <input type="text"
-                       class="auth__input-field"
-                       placeholder="Confirm password" />
-            </div>
-
-            <div class="agreement-field">
-                <input checked="" type="checkbox" id="cbx" class="hidden-xs-up">
-                <label for="cbx" class="cbx"></label>
-
-                <p>By Register i agree that i’m 18 years of age or older, ot the <a href="#">User Agreements</a>, <a href="#">Privacy Policy</a>, <a href="#">Cookie Policy</a>.</p>
-</div> -->
