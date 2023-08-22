@@ -136,7 +136,7 @@
        
 
         <div class="button-field">
-            <button class="login-btn" (click)="loginUser()">Sign In</button>
+            <button class="login-btn" (click)="loginUser()" [ngClass]="{'login-btn-disabled': !loginFormGroup.valid}">Sign In</button>
         </div>
  </ng-template>
  

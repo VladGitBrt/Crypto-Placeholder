@@ -37,7 +37,7 @@
             </div>
     
             <div class="button-field">
-                <button class="login-btn" (click)="register()">Register</button>
+                <button class="login-btn" (click)="register()" [ngClass]="{'login-btn-disabled': !registerFormGroup.valid}">Register</button>
             </div>
 
             <div class="register-sign-in">

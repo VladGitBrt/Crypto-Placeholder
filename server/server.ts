@@ -1,60 +1,87 @@
-const jsonServer = require('json-server');
+const fs = require("fs");
+const bodyParser = require("body-parser");
+const jsonServer = require("json-server");
+const jwt = require("jsonwebtoken");
+
 const server = jsonServer.create();
-const router = jsonServer.router('server/db.json');
-const middlewares = jsonServer.defaults();
-const db = require('./db.json');
-const fs = require('fs');
-const cors = require('cors')
+const userdb = JSON.parse(fs.readFileSync("server/users.json", "utf-8"));
 
-server.use(middlewares);
-server.use(jsonServer.bodyParser);
-server.use(cors())
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.json());
+server.use(jsonServer.defaults());
 
-server.post('/login', (req: any, res:any, next:any) => { 
-  const users = readUsers();
+const SECRET_KEY = "1437";
 
-  const user = users.filter(
-    (u:any) => u.username === req.body.username && u.password === req.body.password
-  )[0];
+const expiresIn = "1h";
 
-  if (user) {
-    res.send({ ...formatUser(user)});
-  } else {
-    res.status(401).send('Incorrect username or password');
-  }
-});
-
-server.post('/register', (req: any, res: any) => {
-  const users = readUsers();
-  const user = users.filter((u: any) => u.username === req.body.username)[0];
-
-  if (user === undefined || user === null) {
-    res.send({...req.body});
-    db.users.push(req.body);
-  } else {
-    res.status(500).send('User already exists');
-  }
-});
-
-server.use('/users', (req: any, res: any, next: any) => {
-  next()
-});
-
-server.use(router);
-server.listen(3000, () => {
-  console.log('JSON Server is running');
-});
-
-function formatUser(user: any) {
-  delete user.password;
-  user.role = user.username === 'admin'
-    ? 'admin'
-    : 'user';
-  return user;
+function createToken(payload) {
+  return jwt.sign(payload, SECRET_KEY, { expiresIn });
 }
 
-function readUsers() {
-  const dbRaw = fs.readFileSync('./server/db.json');  
-  const users = JSON.parse(dbRaw).users
-  return users;
+function isLoginAuthenticated({ username, password }) {
+  return (
+    userdb.users.findIndex(
+      (user) => user.username === username && user.password === password
+    ) !== -1
+  );
 }
+
+function isRegisterAuthenticated({ email }) {
+  return userdb.users.findIndex((user) => user.email === email) !== -1;
+}
+function isUsernameExist({ username }) {
+  return userdb.users.findIndex((user) => user.username === username) !== -1;
+}
+
+server.post("/api/auth/register", (req, res) => {
+  const { username, password } = req.body;
+  if (isUsernameExist({ username })) {
+    const status = 401;
+    const message = "Username already exist";
+    res.status(status).json({ status, message });
+    return;
+  }
+
+  fs.readFile("server/users.json", (err, data) => {
+    if (err) {
+      const status = 401;
+      const message = err;
+      res.status(status).json({ status, message });
+      return;
+    }
+    data = JSON.parse(data.toString());
+
+    data.users.push({ id: Date.now(), username: username, password: password });
+    let writeData = fs.writeFile(
+      "server/users.json",
+      JSON.stringify(data),
+      (err, result) => {
+        if (err) {
+          const status = 401;
+          const message = err;
+          res.status(status).json({ status, message });
+          return;
+        }
+      }
+    );
+  });
+  const access_token = createToken({ username, password });
+  res.status(200).json({ access_token });
+});
+
+server.post("/api/auth/login", (req, res) => {
+  const { username, password } = req.body;
+  
+  if (!isLoginAuthenticated({ username, password })) {
+    const status = 401;
+    const message = "Incorrect Username or Password";
+    res.status(status).json({ status, message });
+    return;
+  }
+  const access_token = createToken({ username, password });
+  res.status(200).json({ username, access_token });
+});
+
+server.listen(5000, () => {
+  console.log("Running fake api json server");
+});

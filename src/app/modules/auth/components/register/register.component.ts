@@ -20,7 +20,14 @@ export class RegisterComponent {
   constructor(private Auth: AuthService){}
 
   register(): void{
-    console.log(this.registerFormGroup.value)
+    let registerForm = {
+      username: this.registerFormGroup.value.email,
+      password: this.registerFormGroup.value.password
+    }
+    this.Auth.register(registerForm)
+      .subscribe(data => {
+        localStorage.setItem('token',data.access_token)
+      })
   }
 
   passMode(): void {

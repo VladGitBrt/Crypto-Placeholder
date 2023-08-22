@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -15,7 +15,7 @@ enum LoginMode {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginMode: 'login' | 'recovery' | 'confirm' | 'code' = 'login';
   loginFormGroup = new FormGroup({
     email: new FormControl('',[Validators.required]),
@@ -23,11 +23,6 @@ export class LoginComponent implements OnInit {
   })
   showPassword: boolean = false;
   constructor(private router: Router, private auth: AuthService){}
-  
-  ngOnInit(): void {
-      this.auth.test()
-        .subscribe(data => {console.log(data )})
-  }
 
   changeMode(entryMode: string):void {
     switch(entryMode) {
@@ -51,7 +46,15 @@ export class LoginComponent implements OnInit {
   }
 
   loginUser(): void {
-    console.log(this.loginFormGroup.value)
+    console.log(this.loginFormGroup.value);
+    let loginForm = {
+      username: this.loginFormGroup.value.email,
+      password: this.loginFormGroup.value.password
+    }
+    this.auth.login(loginForm)
+      .subscribe(data => {
+        localStorage.setItem('token',data.access_token)
+      })
   }
 
 }
