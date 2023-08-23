@@ -5,6 +5,7 @@
     font-family: 'Montserrat', sans-serif;
 
     --dark-theme: #080808;
+    --dark-container-bg: #121318;
 
 }
 
@@ -20,6 +21,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     outline: none;
     font-size: 1.2rem;
     color: white;
-    background-color: #121318;
+    background-color: var(--dark-container-bg);
     padding: 20px;
+}
+
+.app-logo {
+    display: flex;
+    align-items: center;
+    color: white;
+    gap: 10px;
+}
+
+.app-logo p {
+    margin: 0px;
 }

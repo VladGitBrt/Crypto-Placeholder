@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,7 @@ export class RegisterComponent {
     repass: new FormControl('',[Validators.required]),
     terms: new FormControl('',[Validators.required])
   })
-  constructor(private Auth: AuthService){}
+  constructor(private Auth: AuthService, private router: Router){}
 
   register(): void{
     let registerForm = {
@@ -26,7 +27,9 @@ export class RegisterComponent {
     }
     this.Auth.register(registerForm)
       .subscribe(data => {
-        localStorage.setItem('token',data.access_token)
+        localStorage.setItem('token',data.access_token),
+        localStorage.setItem('username',data.username)
+        this.router.navigate(['/dashboard'])
       })
   }
 

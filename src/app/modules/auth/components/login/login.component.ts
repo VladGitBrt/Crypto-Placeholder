@@ -54,6 +54,8 @@ export class LoginComponent {
     this.auth.login(loginForm)
       .subscribe(data => {
         localStorage.setItem('token',data.access_token)
+        localStorage.setItem('username',data.username)
+        this.router.navigate(['/dashboard'])
       })
   }
 

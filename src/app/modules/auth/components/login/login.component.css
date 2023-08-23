@@ -12,14 +12,6 @@ hr {
     position: absolute;
     right: 200px;
     top: 10px;
-    display: flex;
-    align-items: center;
-    color: white;
-    gap: 10px;
-}
-
-.app-logo p {
-    margin: 0px;
 }
 
 .social-field {
