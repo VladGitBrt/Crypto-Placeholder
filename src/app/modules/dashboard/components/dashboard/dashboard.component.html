@@ -1,4 +1,4 @@
-<div class="dashboard-container">
+<div class="dashboard-main">
     <header>
         <div class="app-logo">
             <img src="../../../../../assets/app_logo.svg">
@@ -10,5 +10,17 @@
             <p>{{username}}</p>
         </div>
     </header>
-    <router-outlet></router-outlet>
+    <section class="dashboard__container">
+        <app-market></app-market>
+        <app-selected-coin></app-selected-coin>
+        <div class="dashboard__sections">
+            <div>
+                <app-calculator></app-calculator>
+            </div>
+            <div>
+                <app-coin-list></app-coin-list>    
+            </div>
+        </div>
+        <app-chart></app-chart>
+    </section>
 </div>

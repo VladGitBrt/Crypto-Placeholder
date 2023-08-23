@@ -7,6 +7,8 @@ import { CoinListComponent } from './components/coin-list/coin-list.component';
 import { CalculatorComponent } from './components/calculator/calculator.component';
 import { ChartComponent } from './components/chart/chart.component';
 import { SelectedCoinComponent } from './components/selected-coin/selected-coin.component';
+import { MarketComponent } from './components/market/market.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -15,11 +17,13 @@ import { SelectedCoinComponent } from './components/selected-coin/selected-coin.
     CoinListComponent,
     CalculatorComponent,
     ChartComponent,
-    SelectedCoinComponent
+    SelectedCoinComponent,
+    MarketComponent
   ],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    SharedModule
   ]
 })
 export class DashboardModule { }

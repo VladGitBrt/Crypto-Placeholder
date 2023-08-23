@@ -35,3 +35,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .app-logo p {
     margin: 0px;
 }
+
+.dashboard-tile__container {
+    background-color: var(--dark-container-bg);
+    border-radius: 10px;
+}

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-type CurrentTab = 'list' | 'calc' | 'chart';
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
