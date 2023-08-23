@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { IUser } from 'src/app/core/interfaces/user.interface';
 
 enum LoginMode {
   Login = 'login',
@@ -10,13 +11,16 @@ enum LoginMode {
   Code = 'code'
 }
 
+type LoginStage = 'login' | 'recovery' | 'confirm' | 'code';
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  loginMode: 'login' | 'recovery' | 'confirm' | 'code' = 'login';
+  loginStage: LoginStage  = 'login';
   loginFormGroup = new FormGroup({
     email: new FormControl('',[Validators.required]),
     password: new FormControl('',[Validators.required]),
@@ -24,33 +28,33 @@ export class LoginComponent {
   showPassword: boolean = false;
   constructor(private router: Router, private auth: AuthService){}
 
-  changeMode(entryMode: string):void {
-    switch(entryMode) {
+  onLoginStageChange(selectedMode: string):void {
+    switch(selectedMode) {
       case 'recover': 
-        this.loginMode = LoginMode.Recovery
+        this.loginStage = LoginMode.Recovery
         break;
       case 'confirm': 
-        this.loginMode = LoginMode.Confirm
+        this.loginStage = LoginMode.Confirm
         break;
       case 'code': 
-        this.loginMode = LoginMode.Code
+        this.loginStage = LoginMode.Code
         break;
       case 'endCode': 
-        this.loginMode = LoginMode.Login
+        this.loginStage = LoginMode.Login
         break;
     }
   }
 
-  passMode(): void {
+  isShowPass(): void {
     this.showPassword = !this.showPassword
   }
 
   loginUser(): void {
     console.log(this.loginFormGroup.value);
-    let loginForm = {
-      username: this.loginFormGroup.value.email,
-      password: this.loginFormGroup.value.password
-    }
+      let loginForm: IUser = {
+        username: this.loginFormGroup.value.email!,
+        password: this.loginFormGroup.value.password!
+      }
     this.auth.login(loginForm)
       .subscribe(data => {
         localStorage.setItem('token',data.access_token)

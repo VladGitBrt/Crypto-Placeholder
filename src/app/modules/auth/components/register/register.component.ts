@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { IUser } from 'src/app/core/interfaces/user.interface';
 
 @Component({
   selector: 'app-register',
@@ -21,9 +22,9 @@ export class RegisterComponent {
   constructor(private Auth: AuthService, private router: Router){}
 
   register(): void{
-    let registerForm = {
-      username: this.registerFormGroup.value.email,
-      password: this.registerFormGroup.value.password
+    let registerForm: IUser = {
+      username: this.registerFormGroup.value.email!,
+      password: this.registerFormGroup.value.password!
     }
     this.Auth.register(registerForm)
       .subscribe(data => {

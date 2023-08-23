@@ -8,12 +8,12 @@ type CurrentTab = 'list' | 'calc' | 'chart';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  public username: string | null = 'Loading...'
+  public username: string = 'Loading...'
   constructor(){}
 
   ngOnInit(): void {
       if(localStorage.getItem('username')){
-        this.username = localStorage.getItem('username')
+        this.username = localStorage.getItem('username')!
       }
   }
 }

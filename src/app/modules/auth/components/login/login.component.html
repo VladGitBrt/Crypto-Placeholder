@@ -6,23 +6,23 @@
     <div class="login__side-pic">
         <div class="side-placeholder"></div>
     </div>
-    <div class="login__form-container">
-        <div class="login__form-box" *ngIf="loginMode === 'login'">
+    <div class="login__form-container" [ngSwitch]="loginStage">    
+        <div *ngSwitchCase="'login'" class="login__form-box" >
             <ng-container *ngTemplateOutlet="login"></ng-container>
         </div>
-        <div class="login__form-box" *ngIf="loginMode === 'recovery'">
-            <ng-container *ngTemplateOutlet="recoverPass"></ng-container>
+        <div *ngSwitchCase="'recovery'" class="login__form-box" >
+            <ng-container *ngTemplateOutlet="recovery"></ng-container>
         </div>
-        <div class="login__form-box" *ngIf="loginMode === 'confirm'">
-            <ng-container *ngTemplateOutlet="confirmation"></ng-container>
+        <div *ngSwitchCase="'confirm'" class="login__form-box" >
+            <ng-container *ngTemplateOutlet="confirm"></ng-container>
         </div>
-        <div class="login__form-box" *ngIf="loginMode === 'code'">
-            <ng-container *ngTemplateOutlet="securityCode"></ng-container>
-        </div>
+        <div *ngSwitchCase="'code'" class="login__form-box" >
+            <ng-container *ngTemplateOutlet="code"></ng-container>
+        </div>    
     </div>
 </div>
 
-<ng-template #securityCode>
+<ng-template #code>
         <div class="login___security-container">
             <p class="login__title">Enter your security code</p>
             <p>We texted your code to +1 234 567 890</p>    
@@ -44,12 +44,12 @@
         </div>
 
         <div class="button-field">
-            <button class="login-btn" (click)="changeMode('endCode')">Continue</button>
+            <button class="login-btn" (click)="onLoginStageChange('endCode')">Continue</button>
         </div>
 </ng-template>
 
 
-<ng-template #confirmation>
+<ng-template #confirm>
         <div>
             <p class="login__title">Let`s confirm it`s really you</p>
             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi, fugiat.</p>
@@ -74,12 +74,12 @@
         </div>
 
         <div class="button-field">
-            <button class="login-btn" (click)="changeMode('code')">Continue</button>
+            <button class="login-btn" (click)="onLoginStageChange('code')">Continue</button>
         </div>
 </ng-template>
 
 
-<ng-template #recoverPass>
+<ng-template #recovery>
         <div>
             <p class="login__title">Password Recovery</p>
             <p>Enter your email to recover your password</p>
@@ -88,7 +88,7 @@
         <input type="text" class="auth__input-field" placeholder="Enter Email">
         
         <div class="button-field">
-            <button class="login-btn" (click)="changeMode('confirm')">Reset Password</button>
+            <button class="login-btn" (click)="onLoginStageChange('confirm')">Reset Password</button>
         </div>
 </ng-template>
 
@@ -102,13 +102,13 @@
                        class="auth__input-field"
                        placeholder="Password" 
                        formControlName="password"/>
-                <img (click)="passMode()" src="../../../../../assets/show_pass.svg" class="pass-icon">
+                <img (click)="isShowPass()" src="../../../../../assets/show_pass.svg" class="pass-icon">
             </div>
         </div>
         <div class="info-field">
             <p>Scan to login</p>
 
-            <a (click)="changeMode('recover')">Forgot password?</a>
+            <a (click)="onLoginStageChange('recover')">Forgot password?</a>
         </div>
 
         <div class="register-field">

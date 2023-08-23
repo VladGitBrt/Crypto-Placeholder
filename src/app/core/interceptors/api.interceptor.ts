@@ -6,6 +6,7 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
@@ -13,7 +14,7 @@ export class ApiInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const apiKey = '07065cd15bd1ea6d118163c3ce0a5c0d3c52f8d9a99f40e2293c45fdf00d26e3';
+    const apiKey = environment.apiKey;
    
     request = request.clone({
       setHeaders: {
