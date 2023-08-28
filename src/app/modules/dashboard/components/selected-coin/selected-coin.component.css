@@ -1,0 +1,132 @@
+.selected-coin-container {
+    width: calc(100% - 100px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    gap: 50px;
+}
+
+.volume-card-container {
+    width: 25%;
+    background-color: black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 15px;
+}
+
+.volume-dynamic {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.dynamic-up {
+    color:#03A66D;
+}
+
+.dynamic-down {
+    color: #DC2626;
+}
+
+.volume-icon {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #6C7080;
+    margin-bottom: 30px;
+}
+
+.volume-icon img {
+    width: 40px;
+    height: 40px;
+}
+
+.volume-icon p, .volume-price p,.volume-dynamic p {
+    margin: 0;
+    font-size: 20px;
+}
+
+.volume-price {
+    margin-bottom: 15px;
+}
+
+.volume-price p{
+    font-size: 30px;
+}
+
+.stats-container,.volume-container {
+    width: 100%;
+    display: flex;
+}
+
+.volume-container {
+    gap: 20px;
+}
+
+.stats-title {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.price-title p,  .high-label p {
+    margin: 0px;
+}
+
+.price-title {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.price-value {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #6C7080;
+}
+
+.price-label {
+    display: flex;
+    gap: 10px;
+}
+
+.price-label > p {
+    font-size: 35px;
+}
+
+.high-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #03A66D;
+}
+
+.stats-title p {
+    font-size: 25px;
+}
+
+.coin-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.coin-container p {
+    margin: 0px;
+}
+
+.label {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: black;
+    color: #0083F8;
+}

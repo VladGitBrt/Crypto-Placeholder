@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {MatIconModule} from '@angular/material/icon';
+import {CdkTableModule} from '@angular/cdk/table';
 
 @NgModule({
   declarations: [],
@@ -9,7 +10,8 @@ import {MatIconModule} from '@angular/material/icon';
     CommonModule
   ], 
   exports: [
-    MatIconModule
+    MatIconModule,
+    CdkTableModule
   ]
 })
 export class SharedModule { }

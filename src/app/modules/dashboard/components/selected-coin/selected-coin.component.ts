@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./selected-coin.component.css']
 })
 export class SelectedCoinComponent {
-
+  constructor(){}
 }
