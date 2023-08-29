@@ -14,7 +14,6 @@ export class DashboardComponent implements OnInit {
       if(localStorage.getItem('username')){
         this.username = localStorage.getItem('username')!
       }
-
-      this.cryptoApiService.getCoinTableData();
+      this.cryptoApiService.getCoinTableData()
   }
 }

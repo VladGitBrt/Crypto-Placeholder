@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ITableData } from 'src/app/modules/dashboard/components/coin-list/coin-list.component';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +26,34 @@ export class CryptoApiService {
         let symbolArray = symbolData.map(coin => coin.coinSymbol)
         symbolStringData = symbolArray.join(',')      
         this.http.get<any>(`${this.apiUrl}/pricemultifull?fsyms=${symbolStringData}&tsyms=USD`)
-          .subscribe(fullData => console.log(fullData))
+          .subscribe(fullData => {
+            this.transformResponse(fullData.RAW)
+          })
       })
     
+  }
+
+   private transformResponse(response: any): ITableData[]{
+        console.log(response)
+        const transformedData: ITableData[] = [];
+        let positionCounter: number = 1;
+        for (let symbol in response) {
+          if (response.hasOwnProperty(symbol)) {
+            const stock = response[symbol].USD;
+            const tableData: ITableData = {
+              number: positionCounter.toString(),
+              coinName: stock.FROMSYMBOL,
+              coinPrice: stock.PRICE,
+              dailyPercent: stock.VOLUME24HOUR,
+              dailyHigh: stock.HIGH24HOUR,
+              dailyLow: stock.LOW24HOUR,
+              imageUrl: stock.IMAGEURL
+            };
+            transformedData.push(tableData);
+          }
+        }
+        console.log(transformedData);
+        return transformedData;
   }
 
   getLimitedData(data: any): any[] {
