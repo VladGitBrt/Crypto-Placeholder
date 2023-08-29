@@ -1,13 +1,9 @@
-export interface IDashbordTableData {
-    id: string;
-    imageUrl: string;
+export interface ITableData {
+    number: string;
     coinName: string;
     coinPrice: string;
-    vector: string;
-    dayTurnHigh: string;
-    dayTurnLow: string;
-}
-
-export interface IDashbordResponce {
-
+    dailyPercent: string;
+    dailyHigh: string;
+    dailyLow: string;
+    imageUrl: string;
 }

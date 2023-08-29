@@ -1,5 +1,5 @@
 .coin-list-container {
-    width: calc(100% - 100px);
+    max-width: calc(100% - 100px);
     padding: 50px;
 }
 
