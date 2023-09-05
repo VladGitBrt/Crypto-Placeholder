@@ -13,6 +13,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducers } from './store/dashboard.reducers'
 import { EffectsModule } from '@ngrx/effects';
 import { CryptoDataEffects } from './store/dashboard.effects';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { CryptoDataEffects } from './store/dashboard.effects';
   imports: [
     CommonModule,
     DashboardRoutingModule,
+    ReactiveFormsModule,
     SharedModule,
     StoreModule.forFeature('dashboard',reducers),
     EffectsModule.forFeature([CryptoDataEffects])

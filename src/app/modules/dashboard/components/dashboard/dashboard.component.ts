@@ -22,8 +22,6 @@ export class DashboardComponent implements OnInit {
       if(localStorage.getItem('username')){
         this.username = localStorage.getItem('username')!
       }
-      this.store$.dispatch(DashboardActions.getTableData())
-      this.cryptoApiService.getCoinTableData()
-        .subscribe(data => console.log(data));
+      this.store$.dispatch(DashboardActions.getTableData());
   }
 }

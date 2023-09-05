@@ -4,15 +4,15 @@ import * as DashboardActions from './dashboard.actions';
 export const initialState: IDashboardState = {
     isLoading: false, 
     cryptoData: [
-        {
-            number: "1",
-            coinName: "string",
-            coinPrice: "string",
-            dailyPercent: "string",
-            dailyHigh: "string",
-            dailyLow: "string",
-            imageUrl: 'sample'
-        }
+        // {
+        //     number: "1",
+        //     coinName: "string",
+        //     coinPrice: "string",
+        //     dailyPercent: "string",
+        //     dailyHigh: "string",
+        //     dailyLow: "string",
+        //     imageUrl: 'sample'
+        // }
     ]
 };
 

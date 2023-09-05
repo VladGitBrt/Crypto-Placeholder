@@ -15,6 +15,18 @@
     background-color: var(--dark-container-bg);
 }
 
+.percent-container {
+    display: flex;
+}
+
+.high {
+   color: #03A66D;
+}
+
+.low {
+    color: #DC2626;
+}
+
 .coin-name-container {
     display: flex;
     align-items: center;
@@ -35,10 +47,12 @@
 
 .coin-logo {
     width: 30px;
+    border-radius: 50%;
 }
 
 .mat-mdc-paginator {
     background-color: var(--dark-container-bg);
+    
 }
 
 .mat-mdc-row:hover .mat-mdc-cell {

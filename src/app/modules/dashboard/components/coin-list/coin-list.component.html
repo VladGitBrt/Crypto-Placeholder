@@ -14,9 +14,9 @@
               <th mat-header-cell mat-sort-header *matHeaderCellDef>Coin Name</th>
               <td mat-cell *matCellDef="let element">
                 <div class="coin-name-container">
-                    <img src="https://www.cryptocompare.com/" class="coin-logo">
+                    <img [src]="'https://www.cryptocompare.com/'+ element.imageUrl" class="coin-logo">
                     <p>{{element.coinName}}</p>
-                    <div class="label">Name</div>
+                    <div class="label">{{element.coinName}}</div>
                 </div>
               </td>
             </ng-container>
@@ -30,7 +30,15 @@
             <!-- Symbol Column -->
             <ng-container matColumnDef="dailyPercent">
               <th mat-header-cell mat-sort-header *matHeaderCellDef>24%</th>
-              <td mat-cell *matCellDef="let element">{{element.dailyPercent}}</td>
+              <td mat-cell *matCellDef="let element">
+                <div class="percent-container">
+                  <p [ngClass]="{high: element.dailyPercent > 0, low: element.dailyPercent <= 0}">
+                    {{element.dailyPercent}}%
+                    <mat-icon *ngIf="element.dailyPercent > 0">trending_up</mat-icon>
+                    <mat-icon *ngIf="element.dailyPercent <= 0">trending_down</mat-icon>
+                  </p>
+                </div>
+              </td>
             </ng-container>
 
             <ng-container matColumnDef="dailyHigh">

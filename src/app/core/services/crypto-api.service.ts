@@ -38,10 +38,10 @@ export class CryptoApiService {
         const tableData: ITableData = {
           number: positionCounter.toString(),
           coinName: stock.FROMSYMBOL,
-          coinPrice: stock.PRICE,
-          dailyPercent: stock.VOLUME24HOUR,
-          dailyHigh: stock.HIGH24HOUR,
-          dailyLow: stock.LOW24HOUR,
+          coinPrice: `$${this.round(stock.PRICE,2)}`,
+          dailyPercent: `${this.round(stock.CHANGEPCT24HOUR,2)}`,
+          dailyHigh: `$${this.round(stock.HIGH24HOUR,2)}`,
+          dailyLow: `$${this.round(stock.LOW24HOUR,2)}` ,
           imageUrl: stock.IMAGEURL
         };
         positionCounter++;
@@ -51,7 +51,12 @@ export class CryptoApiService {
     return of(transformedData);
   }
 
-  getLimitedData(data: any): any[] {
+  private round(value: number, precision: number) {
+    var multiplier = Math.pow(10, precision || 0);
+    return ((Math.round(value * multiplier) / multiplier)+5).toString();
+  }
+
+  private getLimitedData(data: any): any[] {
     let limitedData: any[] = [];
     for(let value in data) {
       if(data.hasOwnProperty(value)){

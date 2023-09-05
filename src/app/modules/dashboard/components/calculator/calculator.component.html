@@ -1,3 +1,45 @@
 <div class="dashboard-tile__container">
-    
+    <div class="calculator-container">
+        <mat-tab-group animationDuration="0ms">
+            <mat-tab label="Sell">
+                <ng-container *ngTemplateOutlet="tradeContainer"></ng-container>
+                <button>Sell</button>
+            </mat-tab>
+            <mat-tab label="Buy">
+                <ng-container *ngTemplateOutlet="tradeContainer"></ng-container>
+                <button>Buy</button>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
 </div>
+
+<ng-template #tradeContainer>
+    <div class="trade-container">
+        <div class="coin-price-container">
+            <img src="../../../../../assets/avatar.svg" alt="">
+            <p>9999.99,99$</p>
+        </div>
+
+        <div class="trade-form-container" [formGroup]="tradeInputGroup">
+            <div class="trade-input-container">
+                <p>Quantity(Coin name)</p>
+                <div class="input-container">
+                    <span>$</span>
+                    <input type="number" formControlName="coinEquivalent" class="no-spinner">
+                    <img src="../../../../../assets/avatar.svg" alt="">
+                    <p>Coin Name</p>
+                </div>
+            </div>
+            <div class="trade-input-container">
+                <p>Quantity(Coin name)</p>
+                <div class="input-container">
+                    <span>$</span>
+                    <input type="number" formControlName="coinEquivalent" class="no-spinner">
+                    <img src="../../../../../assets/avatar.svg" alt="">
+                    <p>Coin Name</p>
+                </div>
+            </div>
+            <p>Total: (+2% Fee) 99.99,99$</p>
+        </div>
+    </div>
+</ng-template>

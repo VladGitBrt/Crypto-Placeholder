@@ -6,6 +6,7 @@ import {MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CdkTableModule } from '@angular/cdk/table';
 import {MatSortModule} from '@angular/material/sort';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [],
@@ -17,7 +18,8 @@ import {MatSortModule} from '@angular/material/sort';
     MatTableModule,
     MatPaginatorModule,
     CdkTableModule,
-    MatSortModule
+    MatSortModule,
+    MatTabsModule
   ]
 })
 export class SharedModule { }

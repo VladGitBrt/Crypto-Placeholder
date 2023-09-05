@@ -9,19 +9,6 @@ import { Observable } from 'rxjs';
 import { cryptoDataSelector } from '../../store/dashboard.selectors';
 
 
-
-const mockTableData: ITableData[] = [
-  {
-    number: "1",
-    coinName: "string",
-    coinPrice: "string",
-    dailyPercent: "string",
-    dailyHigh: "string",
-    dailyLow: "string",
-    imageUrl: 'sample'
-  },
-]
-
 @Component({
   selector: 'app-coin-list',
   templateUrl: './coin-list.component.html',
