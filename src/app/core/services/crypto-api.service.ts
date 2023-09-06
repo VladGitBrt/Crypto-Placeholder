@@ -9,8 +9,12 @@ import { ITableData } from 'src/app/modules/dashboard/model/dashboard.model';
 export class CryptoApiService {
 
   private apiUrl: string = 'https://min-api.cryptocompare.com/data';
-  private imageApiUrl: string = 'https://www.cryptocompare.com';
+  private searchItemLimit: number = 200;
   constructor(private http: HttpClient) { 
+  }
+
+  getCoinDataByName(coinName: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/pricemultifull?fsyms=${coinName}&tsyms=USD`)
   }
 
   getCoinTableData(): Observable<ITableData[]> {
@@ -22,14 +26,14 @@ export class CryptoApiService {
 
         return this.http.get<any>(`${this.apiUrl}/pricemultifull?fsyms=${symbolStringData}&tsyms=USD`).pipe(
           switchMap(fullData => {
-            return this.transformResponse(fullData.RAW);
+            return this.tableTransformResponse(fullData.RAW);
           })
         );
       })
     );
   }
 
-  private transformResponse(response: any): Observable<ITableData[]> {
+  private tableTransformResponse(response: any): Observable<ITableData[]> {
     const transformedData: ITableData[] = [];
     let positionCounter: number = 1;
     for (let symbol in response) {
@@ -38,10 +42,10 @@ export class CryptoApiService {
         const tableData: ITableData = {
           number: positionCounter.toString(),
           coinName: stock.FROMSYMBOL,
-          coinPrice: `$${this.round(stock.PRICE,2)}`,
+          coinPrice: `${this.round(stock.PRICE,2)}`,
           dailyPercent: `${this.round(stock.CHANGEPCT24HOUR,2)}`,
-          dailyHigh: `$${this.round(stock.HIGH24HOUR,2)}`,
-          dailyLow: `$${this.round(stock.LOW24HOUR,2)}` ,
+          dailyHigh: `${this.round(stock.HIGH24HOUR,2)}`,
+          dailyLow: `${this.round(stock.LOW24HOUR,2)}` ,
           imageUrl: stock.IMAGEURL
         };
         positionCounter++;
@@ -61,7 +65,7 @@ export class CryptoApiService {
     for(let value in data) {
       if(data.hasOwnProperty(value)){
         limitedData.push(data[value]);
-        if(limitedData.length === 100) {
+        if(limitedData.length === this.searchItemLimit) {
           break;
         }
       }

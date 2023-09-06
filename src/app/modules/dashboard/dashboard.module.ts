@@ -14,6 +14,8 @@ import { reducers } from './store/dashboard.reducers'
 import { EffectsModule } from '@ngrx/effects';
 import { CryptoDataEffects } from './store/dashboard.effects';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CurrentPipe } from 'src/app/core/pipes/current.pipe';
+import { TrendDirective } from 'src/app/core/directives/trend.directive';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     CalculatorComponent,
     ChartComponent,
     SelectedCoinComponent,
-    MarketComponent
+    MarketComponent,
+    CurrentPipe,
+    TrendDirective,
   ],
   imports: [
     CommonModule,

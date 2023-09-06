@@ -9,10 +9,12 @@ import { ApiInterceptor } from './core/interceptors/api.interceptor';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
+import { CurrentPipe } from './core/pipes/current.pipe';
+import { TrendDirective } from './core/directives/trend.directive';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

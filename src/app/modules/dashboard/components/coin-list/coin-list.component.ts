@@ -7,6 +7,7 @@ import { Store, select } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/core/interfaces/app.state.interface';
 import { Observable } from 'rxjs';
 import { cryptoDataSelector } from '../../store/dashboard.selectors';
+import { CryptoApiService } from 'src/app/core/services/crypto-api.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class CoinListComponent implements AfterViewInit {
   cryptoData$?: Observable<ITableData[]>;
   dataSource = new MatTableDataSource<ITableData>([]);
 
-  constructor(private store: Store<AppStateInterface>){}
+  constructor(private store: Store<AppStateInterface>, private cryptoApi: CryptoApiService){}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -30,5 +31,10 @@ export class CoinListComponent implements AfterViewInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
+  }
+
+  selectCoin(coinName: ITableData['coinName']) {
+    this.cryptoApi.getCoinDataByName(coinName)
+      .subscribe(data => console.log(data.RAW))
   }
 }
