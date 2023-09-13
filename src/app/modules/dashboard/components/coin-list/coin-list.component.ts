@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, EventEmitter, Output } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -20,6 +20,8 @@ export class CoinListComponent implements AfterViewInit {
   cryptoData$?: Observable<ITableData[]>;
   dataSource = new MatTableDataSource<ITableData>([]);
 
+  @Output() selectedCoin = new EventEmitter<string>();
+
   constructor(private store: Store<AppStateInterface>, private cryptoApi: CryptoApiService){}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -34,7 +36,6 @@ export class CoinListComponent implements AfterViewInit {
   }
 
   selectCoin(coinName: ITableData['coinName']) {
-    this.cryptoApi.getCoinDataByName(coinName)
-      .subscribe(data => console.log(data.RAW))
+    this.selectedCoin.emit(coinName);
   }
 }

@@ -12,3 +12,8 @@ export const cryptoDataSelector = createSelector(
   selectFeature,
   (state) => state.cryptoData
 );
+
+export const coinDataSelector = createSelector(
+  selectFeature,
+  (state) => state.coinData
+)

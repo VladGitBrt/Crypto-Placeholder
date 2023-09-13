@@ -15,7 +15,7 @@
         <app-selected-coin></app-selected-coin>
         <div class="dashboard__sections">
             <div>
-                <app-coin-list></app-coin-list>  
+                <app-coin-list (selectedCoin)="selectCoin($event)"></app-coin-list>  
             </div>
             <div>
                 <app-calculator></app-calculator>

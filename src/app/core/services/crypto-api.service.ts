@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, of, switchMap } from 'rxjs';
-import { ITableData } from 'src/app/modules/dashboard/model/dashboard.model';
+import { Observable, Subject, map, of, switchMap } from 'rxjs';
+import { ICoinData, ITableData } from 'src/app/modules/dashboard/model/dashboard.model';
+import { coinDataSelector } from '../../modules/dashboard/store/dashboard.selectors';
+
+type TransformType = 'table' | 'selected' | 'chart';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +16,11 @@ export class CryptoApiService {
   constructor(private http: HttpClient) { 
   }
 
-  getCoinDataByName(coinName: string): Observable<any> {
+  getCoinDataByName(coinName: string): Observable<ICoinData> {
     return this.http.get<any>(`${this.apiUrl}/pricemultifull?fsyms=${coinName}&tsyms=USD`)
+    .pipe(
+      map(response => this.selectedTransformResponse(response.RAW))
+    );
   }
 
   getCoinTableData(): Observable<ITableData[]> {
@@ -26,14 +32,52 @@ export class CryptoApiService {
 
         return this.http.get<any>(`${this.apiUrl}/pricemultifull?fsyms=${symbolStringData}&tsyms=USD`).pipe(
           switchMap(fullData => {
-            return this.tableTransformResponse(fullData.RAW);
+            return this.tableTransformResponse(fullData.RAW,'table');
           })
         );
       })
     );
   }
 
-  private tableTransformResponse(response: any): Observable<ITableData[]> {
+  private selectedTransformResponse(response: any): ICoinData {
+    let coinData: ICoinData = {
+      coinName: '',
+      coinPrice: '',
+      dailyPercent: '',
+      marketCap: '',
+      circulatingSupply: '',
+      fullyDiluted: '',
+      volume24hr: '',
+      marketCapPrice: '',
+      circulatingSupplyPrice: '',
+      fullyDilutedPrice: '',
+      volume24hrPrice: '',
+      imageUrl: ''
+    };
+    for (const key in response) {
+      if (response.hasOwnProperty(key)) {
+        const data = response[key]['USD'];
+        const coin: ICoinData = {
+          coinName: data.FROMSYMBOL,
+          coinPrice: data.PRICE.toString(),
+          dailyPercent: data.CHANGE24HOUR.toString(),
+          marketCap: data.MKTCAP.toString(),
+          circulatingSupply: data.CIRCULATINGSUPPLY.toString(),
+          fullyDiluted: data.LASTVOLUME.toString(),
+          volume24hr: data.VOLUME24HOUR.toString(),
+          marketCapPrice: data.LASTVOLUME.toString(),
+          circulatingSupplyPrice: data.CIRCULATINGSUPPLYMKTCAP.toString(),
+          fullyDilutedPrice: data.SUPPLY.toString(),
+          volume24hrPrice: data.TOTALVOLUME24HTO.toString(),
+          imageUrl: data.IMAGEURL
+        };
+        coinData = coin;
+      }
+    }
+    return coinData;
+  }
+
+  private tableTransformResponse(response: any, transformType: TransformType): Observable<ITableData[]> {
     const transformedData: ITableData[] = [];
     let positionCounter: number = 1;
     for (let symbol in response) {

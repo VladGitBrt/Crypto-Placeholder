@@ -1,5 +1,4 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Directive({
   selector: '[trend]'
@@ -8,7 +7,7 @@ export class TrendDirective implements OnInit {
 
   constructor(private eleRef: ElementRef) { }
 
-  @Input() trendValue: string = '0';
+  @Input() trendValue!: string;
 
   ngOnInit(): void {
       if(parseInt(this.trendValue) >= 0) {

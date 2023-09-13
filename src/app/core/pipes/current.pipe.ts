@@ -8,12 +8,12 @@ type CurrencyType = 'percent' | 'cash'
 export class CurrentPipe implements PipeTransform {
 
   transform(value: string, currencyType: CurrencyType ): unknown {
-    if(parseFloat(value) >= 0) {
-      return currencyType === 'cash' ? `$${value}` : `+${value}%`
-    }
-    else {
-      return currencyType === 'cash' ? `$${value}` : `${value}%`
-    }
+      return currencyType === 'cash' ? `$${this.round(parseFloat(value),2)}` : `${this.round(parseFloat(value),2)}%`
+  }
+
+  private round(value: number, precision: number) {
+    var multiplier = Math.pow(10, precision || 0);
+    return ((Math.round(value * multiplier) / multiplier)).toString();
   }
 
 }

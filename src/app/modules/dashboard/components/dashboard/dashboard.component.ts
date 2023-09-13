@@ -24,4 +24,8 @@ export class DashboardComponent implements OnInit {
       }
       this.store$.dispatch(DashboardActions.getTableData());
   }
+
+  selectCoin(coinName: string){
+    this.store$.dispatch(DashboardActions.loadCoinData({coinName}))
+  }
 }

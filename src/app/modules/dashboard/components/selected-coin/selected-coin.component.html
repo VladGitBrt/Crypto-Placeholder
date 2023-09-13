@@ -4,22 +4,21 @@
             <div class="stats-title">
                 <p>Market Stats</p>
                 <div class="coin-container">
-                    <img src="../../../../../assets/avatar.svg" alt="">
-                    <p>Coin name</p>
-                    <div class="label">Coin name</div>
+                    <img [src]="'https://www.cryptocompare.com/'+ (selectedCoinData | async)!.imageUrl"  class="coin-avatar">
+                    <p>{{(selectedCoinData | async)?.coinName}}</p>
+                    <div class="label">{{(selectedCoinData | async)?.coinName}}</div>
                     <img src="../../../../../assets/favourite.svg" alt="">
                 </div>
             </div>
             <div class="price-title">
                 <div class="price-label">
-                    <p>$9999.99,99</p>
+                    <p>{{(selectedCoinData | async)!.coinPrice | current: 'cash'}}</p>
                     <div class="high-label">
-                        <p>+99%</p>
-                        <img src="../../../../../assets/up-icon.svg" alt="">
+                        <p>{{(selectedCoinData | async)!.dailyPercent | current: 'percent'}}</p>
                     </div>
                 </div>
                 <div class="price-value">
-                    <p>Bitcoin Price(USD)</p>
+                    <p>{{(selectedCoinData | async)?.coinName}} Price(USD)</p>
                     <mat-icon>error_outline</mat-icon>
                 </div>
             </div>
@@ -31,11 +30,12 @@
                     <p>Market Cap</p>
                 </div>
                 <div class="volume-price">
-                    <p>$999.999,99</p>
+                    <p>{{(selectedCoinData | async)!.marketCap | current:'cash'}}</p>
                 </div>
-                <div class="volume-dynamic dynamic-up">
-                    <p>+2%</p>
+                <div class="volume-dynamic">
+                    <p>{{(selectedCoinData | async)!.marketCapPrice | current:'percent'}}</p>
                     <mat-icon>trending_up</mat-icon>
+                    <mat-icon>trending_down</mat-icon>
                 </div>
             </div>
             <div class="volume-card-container">
@@ -44,10 +44,11 @@
                     <p>Full Diluted</p>
                 </div>
                 <div class="volume-price">
-                    <p>$999.999,99</p>
+                    <p>{{(selectedCoinData | async)!.fullyDilutedPrice | current:'cash'}}</p>
                 </div>
-                <div class="volume-dynamic dynamic-down">
-                    <p>-22%</p>
+                <div class="volume-dynamic">
+                    <p>{{(selectedCoinData | async)!.fullyDiluted | current:'percent'}}</p>
+                    <mat-icon>trending_up</mat-icon>
                     <mat-icon>trending_down</mat-icon>
                 </div>
             </div>
@@ -57,11 +58,12 @@
                     <p>24 Volume</p>
                 </div>
                 <div class="volume-price">
-                    <p>$999.999,99</p>
+                    <p>{{(selectedCoinData | async)!.volume24hrPrice | current:'cash'}}</p>
                 </div>
-                <div class="volume-dynamic dynamic-up">
-                    <p>+2%</p>
+                <div class="volume-dynamic">
+                    <p>{{(selectedCoinData | async)!.volume24hr | current:'percent'}}</p>
                     <mat-icon>trending_up</mat-icon>
+                    <mat-icon>trending_down</mat-icon>
                 </div>
             </div>
             <div class="volume-card-container">
@@ -70,11 +72,12 @@
                     <p>Circulating Supply</p>
                 </div>
                 <div class="volume-price">
-                    <p>$999.999,99</p>
+                    <p>{{(selectedCoinData | async)!.circulatingSupplyPrice | current:'cash'}}</p>
                 </div>
-                <div class="volume-dynamic dynamic-up">
-                    <p>+25%</p>
+                <div class="volume-dynamic">
+                    <p>{{(selectedCoinData | async)!.circulatingSupply| current:'percent'}}</p>
                     <mat-icon>trending_up</mat-icon>
+                    <mat-icon>trending_down</mat-icon>
                 </div>
             </div>
         </div>

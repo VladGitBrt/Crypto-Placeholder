@@ -40,6 +40,11 @@
     margin-bottom: 30px;
 }
 
+.coin-avatar {
+    width: 100px;
+    border-radius: 50%;
+}
+
 .volume-icon img {
     width: 40px;
     height: 40px;
@@ -107,7 +112,6 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    color: #03A66D;
 }
 
 .stats-title p {
