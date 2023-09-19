@@ -18,6 +18,11 @@ button {
   margin: 0;
 }
 
+.image-icon {
+    width: 64px;
+    border-radius: 50%;
+}
+
 .calculator-container {
     width: calc(100% - 100px);
     padding: 50px;

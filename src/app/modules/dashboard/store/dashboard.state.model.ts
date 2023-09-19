@@ -4,4 +4,5 @@ export interface IDashboardState {
     isLoading: boolean;
     cryptoData: ITableData[];
     coinData: ICoinData;
+    isCoinDataLoaded: boolean;
 }

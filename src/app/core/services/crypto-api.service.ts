@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, map, of, switchMap } from 'rxjs';
+import { Observable, map, of, switchMap } from 'rxjs';
 import { ICoinData, ITableData } from 'src/app/modules/dashboard/model/dashboard.model';
-import { coinDataSelector } from '../../modules/dashboard/store/dashboard.selectors';
 
 type TransformType = 'table' | 'selected' | 'chart';
 
@@ -101,7 +100,7 @@ export class CryptoApiService {
 
   private round(value: number, precision: number) {
     var multiplier = Math.pow(10, precision || 0);
-    return ((Math.round(value * multiplier) / multiplier)+5).toString();
+    return ((Math.round(value * multiplier) / multiplier)).toString();
   }
 
   private getLimitedData(data: any): any[] {

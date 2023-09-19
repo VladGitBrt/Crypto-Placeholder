@@ -7,6 +7,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { CdkTableModule } from '@angular/cdk/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
   declarations: [],
@@ -19,7 +21,9 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatPaginatorModule,
     CdkTableModule,
     MatSortModule,
-    MatTabsModule
+    MatTabsModule,
+    MatAutocompleteModule,
+    MatFormFieldModule
   ]
 })
 export class SharedModule { }

@@ -1,5 +1,8 @@
 <div class="dashboard-tile__container">
     <div class="chart-container">
+        <div id="chart-main"></div>
     </div>
-    <div id="chart-main"></div>
+    <div class="loader-container" *ngIf="(isDataLoaded$ | async) === false">
+        <p>Select coin to see chart</p>
+    </div>
 </div>

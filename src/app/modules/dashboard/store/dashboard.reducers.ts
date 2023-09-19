@@ -6,7 +6,7 @@ export const initialState: IDashboardState = {
     cryptoData: [ ],
     coinData: {
         coinName: "",
-        coinPrice: "",
+        coinPrice: "0",
         dailyPercent: "",
         marketCap: "",
         circulatingSupply: "",
@@ -17,7 +17,8 @@ export const initialState: IDashboardState = {
         fullyDilutedPrice: "",
         volume24hrPrice: "",
         imageUrl: ""
-    }
+    },
+    isCoinDataLoaded: false
 };
 
 export const reducers = createReducer(initialState, 
@@ -27,9 +28,11 @@ export const reducers = createReducer(initialState,
         isLoading: false,
         cryptoData: action.tableData
     })),
+    on(DashboardActions.loadCoinData,(state: IDashboardState)=>({...state, isLoading: true})),
     on(DashboardActions.loadCoinDataSuccess, (state,action) => ({
         ...state,
         isLoading: false,
+        isCoinDataLoaded: true,
         coinData: action.coinData
     }))   
 )

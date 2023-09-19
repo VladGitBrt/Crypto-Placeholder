@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { ElementRef, Pipe, PipeTransform } from '@angular/core';
 
 type CurrencyType = 'percent' | 'cash'
 
@@ -7,13 +7,17 @@ type CurrencyType = 'percent' | 'cash'
 })
 export class CurrentPipe implements PipeTransform {
 
-  transform(value: string, currencyType: CurrencyType ): unknown {
-      return currencyType === 'cash' ? `$${this.round(parseFloat(value),2)}` : `${this.round(parseFloat(value),2)}%`
+  transform(value: string, currencyType: CurrencyType, elRef?: HTMLElement ): unknown {
+      if(currencyType === 'percent') {
+        if(parseFloat(value) >= 0){
+          elRef!.style.color = '#03A66D';
+          return `+${Number(parseFloat(value).toFixed(2))}%`;
+        } else {
+          elRef!.style.color = '#DC2626';
+          return `${Number(parseFloat(value).toFixed(2))}%`;
+        }
+      } else {
+        return `$${Number(parseFloat(value).toFixed(2))}`
+      }
   }
-
-  private round(value: number, precision: number) {
-    var multiplier = Math.pow(10, precision || 0);
-    return ((Math.round(value * multiplier) / multiplier)).toString();
-  }
-
 }

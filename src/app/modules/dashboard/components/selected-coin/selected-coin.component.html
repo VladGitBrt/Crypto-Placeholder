@@ -14,7 +14,7 @@
                 <div class="price-label">
                     <p>{{(selectedCoinData | async)!.coinPrice | current: 'cash'}}</p>
                     <div class="high-label">
-                        <p>{{(selectedCoinData | async)!.dailyPercent | current: 'percent'}}</p>
+                        <p #elRef>{{(selectedCoinData | async)!.dailyPercent | current: 'percent': elRef}}</p>
                     </div>
                 </div>
                 <div class="price-value">
@@ -33,9 +33,8 @@
                     <p>{{(selectedCoinData | async)!.marketCap | current:'cash'}}</p>
                 </div>
                 <div class="volume-dynamic">
-                    <p>{{(selectedCoinData | async)!.marketCapPrice | current:'percent'}}</p>
-                    <mat-icon>trending_up</mat-icon>
-                    <mat-icon>trending_down</mat-icon>
+                    <p #elRef>{{(selectedCoinData | async)!.marketCapPrice | current:'percent': elRef}}</p>
+                    <mat-icon trend [trendValue]="(selectedCoinData | async)!.marketCapPrice"></mat-icon>
                 </div>
             </div>
             <div class="volume-card-container">
@@ -47,9 +46,8 @@
                     <p>{{(selectedCoinData | async)!.fullyDilutedPrice | current:'cash'}}</p>
                 </div>
                 <div class="volume-dynamic">
-                    <p>{{(selectedCoinData | async)!.fullyDiluted | current:'percent'}}</p>
-                    <mat-icon>trending_up</mat-icon>
-                    <mat-icon>trending_down</mat-icon>
+                    <p #elRef>{{(selectedCoinData | async)!.fullyDiluted | current:'percent': elRef}}</p>
+                    <mat-icon trend [trendValue]="(selectedCoinData | async)!.fullyDiluted"></mat-icon>
                 </div>
             </div>
             <div class="volume-card-container">
@@ -61,9 +59,8 @@
                     <p>{{(selectedCoinData | async)!.volume24hrPrice | current:'cash'}}</p>
                 </div>
                 <div class="volume-dynamic">
-                    <p>{{(selectedCoinData | async)!.volume24hr | current:'percent'}}</p>
-                    <mat-icon>trending_up</mat-icon>
-                    <mat-icon>trending_down</mat-icon>
+                    <p #elRef>{{(selectedCoinData | async)!.volume24hr | current:'percent': elRef}}</p>
+                    <mat-icon trend [trendValue]="(selectedCoinData | async)!.volume24hr"></mat-icon>
                 </div>
             </div>
             <div class="volume-card-container">
@@ -72,14 +69,15 @@
                     <p>Circulating Supply</p>
                 </div>
                 <div class="volume-price">
-                    <p>{{(selectedCoinData | async)!.circulatingSupplyPrice | current:'cash'}}</p>
+                    <p>{{(selectedCoinData | async)!.circulatingSupplyPrice | current:'cash'}} | {{(selectedCoinData | async)?.coinName}}</p>
                 </div>
-                <div class="volume-dynamic">
-                    <p>{{(selectedCoinData | async)!.circulatingSupply| current:'percent'}}</p>
-                    <mat-icon>trending_up</mat-icon>
-                    <mat-icon>trending_down</mat-icon>
+                <div class="volume-dynamic max-supply">
+                    <p>Max supply {{(selectedCoinData | async)!.circulatingSupply | current:'cash'}}</p>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="loader-container" *ngIf="(isDataLoaded$ | async) === false">
+        <p>Select coin to see statistics</p>
     </div>
 </div>

@@ -11,13 +11,16 @@
             </mat-tab>
         </mat-tab-group>
     </div>
+    <div class="loader-container" *ngIf="(isDataLoaded$ | async) === false">
+        <p>Select coin to see calculator</p>
+    </div>
 </div>
 
 <ng-template #tradeContainer>
     <div class="trade-container">
         <div class="coin-price-container">
-            <img src="../../../../../assets/avatar.svg" alt="">
-            <p>9999.99,99$</p>
+            <img [src]="'https://www.cryptocompare.com/'+ (coinImageUrl$ | async)" class="image-icon">
+            <p>{{coinPrice$ | async}}</p>
         </div>
 
         <div class="trade-form-container" [formGroup]="tradeInputGroup">

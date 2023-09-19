@@ -8,6 +8,11 @@ export const isLoadingSelector = createSelector(
     (state) => state.isLoading
 );
 
+export const isSelectedDataLoaded = createSelector(
+  selectFeature,
+  (state) => state.isCoinDataLoaded
+)
+
 export const cryptoDataSelector = createSelector(
   selectFeature,
   (state) => state.cryptoData
@@ -16,4 +21,14 @@ export const cryptoDataSelector = createSelector(
 export const coinDataSelector = createSelector(
   selectFeature,
   (state) => state.coinData
+)
+
+export const coinPriceSelector = createSelector(
+  selectFeature,
+  (state) => state.coinData.coinPrice
+)
+
+export const coinImageSelector = createSelector(
+  selectFeature,
+  (state) => state.coinData.imageUrl
 )
