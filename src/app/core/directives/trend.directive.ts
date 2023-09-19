@@ -10,7 +10,6 @@ export class TrendDirective implements OnChanges {
   @Input() trendValue!: string;
 
     setUpTrend():void{
-      console.log(this.trendValue)
       if(parseInt(this.trendValue) >= 0) {
         this.eleRef.nativeElement.innerHTML = 'trending_up';
         this.eleRef.nativeElement.style.color = '#03A66D'

@@ -22,3 +22,19 @@ export interface ICoinData {
     volume24hrPrice: string;
     imageUrl: string;
 }
+
+export interface ICoinListResponse {
+    Response: string,
+    Message: string,
+    HasWarning: false,
+    Type: number,
+    RateLimit: {},
+    Data: ICoinListItemResponse
+}
+
+export interface ICoinListItemResponse {
+    id: number,
+    symbol: string,
+    partner_symbol: string,
+    data_available_from: number
+}

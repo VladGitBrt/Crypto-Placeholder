@@ -11,7 +11,7 @@
         </div>
     </header>
     <section class="dashboard__container">
-        <app-market></app-market>
+        <app-market (selectedCoinName)="selectCoin($event)"></app-market>
         <app-selected-coin></app-selected-coin>
         <div class="dashboard__sections">
             <div>

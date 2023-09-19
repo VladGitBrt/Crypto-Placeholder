@@ -14,7 +14,7 @@ import { AppStateInterface } from 'src/app/core/interfaces/app.state.interface';
 export class DashboardComponent implements OnInit {
   public username: string = 'Loading...';
   isLoading$: Observable<boolean>;
-  constructor(private cryptoApiService: CryptoApiService, private store$: Store<AppStateInterface>){
+  constructor(private store$: Store<AppStateInterface>){
     this.isLoading$ = this.store$.pipe(select(isLoadingSelector));
   }
 

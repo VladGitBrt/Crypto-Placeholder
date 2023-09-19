@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, of, switchMap } from 'rxjs';
-import { ICoinData, ITableData } from 'src/app/modules/dashboard/model/dashboard.model';
+import { ICoinData, ICoinListResponse, ITableData } from 'src/app/modules/dashboard/model/dashboard.model';
 
-type TransformType = 'table' | 'selected' | 'chart';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +12,10 @@ export class CryptoApiService {
   private apiUrl: string = 'https://min-api.cryptocompare.com/data';
   private searchItemLimit: number = 200;
   constructor(private http: HttpClient) { 
+  }
+
+  getCoinNameList(): Observable<ICoinListResponse> {
+   return this.http.get<ICoinListResponse>(`${this.apiUrl}/blockchain/list`)
   }
 
   getCoinDataByName(coinName: string): Observable<ICoinData> {
@@ -31,7 +34,7 @@ export class CryptoApiService {
 
         return this.http.get<any>(`${this.apiUrl}/pricemultifull?fsyms=${symbolStringData}&tsyms=USD`).pipe(
           switchMap(fullData => {
-            return this.tableTransformResponse(fullData.RAW,'table');
+            return this.tableTransformResponse(fullData.RAW);
           })
         );
       })
@@ -76,7 +79,7 @@ export class CryptoApiService {
     return coinData;
   }
 
-  private tableTransformResponse(response: any, transformType: TransformType): Observable<ITableData[]> {
+  private tableTransformResponse(response: any): Observable<ITableData[]> {
     const transformedData: ITableData[] = [];
     let positionCounter: number = 1;
     for (let symbol in response) {
