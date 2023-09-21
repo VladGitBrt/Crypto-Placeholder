@@ -23,6 +23,11 @@ export const coinDataSelector = createSelector(
   (state) => state.coinData
 )
 
+export const coinNameSelector = createSelector(
+  selectFeature,
+  (state) => state.coinData.coinName
+)
+
 export const coinPriceSelector = createSelector(
   selectFeature,
   (state) => state.coinData.coinPrice

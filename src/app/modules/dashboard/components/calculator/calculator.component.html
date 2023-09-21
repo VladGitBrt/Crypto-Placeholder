@@ -1,13 +1,13 @@
 <div class="dashboard-tile__container">
     <div class="calculator-container">
         <mat-tab-group animationDuration="0ms">
-            <mat-tab label="Sell">
-                <ng-container *ngTemplateOutlet="tradeContainer"></ng-container>
-                <button>Sell</button>
-            </mat-tab>
             <mat-tab label="Buy">
                 <ng-container *ngTemplateOutlet="tradeContainer"></ng-container>
-                <button>Buy</button>
+                <button (click)="openSnackBar('buy')">Buy</button>
+            </mat-tab>
+            <mat-tab label="Sell">
+                <ng-container *ngTemplateOutlet="tradeContainer"></ng-container>
+                <button (click)="openSnackBar('sell')">Sell</button>
             </mat-tab>
         </mat-tab-group>
     </div>
@@ -20,29 +20,24 @@
     <div class="trade-container">
         <div class="coin-price-container">
             <img [src]="'https://www.cryptocompare.com/'+ (coinImageUrl$ | async)" class="image-icon">
-            <p>{{coinPrice$ | async}}</p>
+            <p>{{(coinPrice$ | async)! | current: 'cash'}}</p>
         </div>
 
         <div class="trade-form-container" [formGroup]="tradeInputGroup">
             <div class="trade-input-container">
-                <p>Quantity(Coin name)</p>
+                <p>Quantity({{coinName}})</p>
                 <div class="input-container">
-                    <span>$</span>
-                    <input type="number" formControlName="coinEquivalent" class="no-spinner">
-                    <img src="../../../../../assets/avatar.svg" alt="">
-                    <p>Coin Name</p>
+                    <input type="number" formControlName="coinEquivalent" class="no-spinner" (input)="coinEquivalentChange()">
                 </div>
             </div>
             <div class="trade-input-container">
-                <p>Quantity(Coin name)</p>
-                <div class="input-container">
+                <p>Buy for(USD)</p>
+                <div class="input-container disable">
                     <span>$</span>
-                    <input type="number" formControlName="coinEquivalent" class="no-spinner">
-                    <img src="../../../../../assets/avatar.svg" alt="">
-                    <p>Coin Name</p>
+                    <input type="number" formControlName="usdEquivalent" class="no-spinner">
                 </div>
             </div>
-            <p>Total: (+2% Fee) 99.99,99$</p>
+            <p>Total: (+2% Fee) {{totalExchangeResult | current: 'cash'}}</p>
         </div>
     </div>
 </ng-template>

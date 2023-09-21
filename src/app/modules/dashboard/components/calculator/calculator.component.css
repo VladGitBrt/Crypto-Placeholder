@@ -18,6 +18,11 @@ button {
   margin: 0;
 }
 
+.disable {
+    pointer-events: none;
+    opacity: 0.3;
+}
+
 .image-icon {
     width: 64px;
     border-radius: 50%;
