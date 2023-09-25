@@ -38,3 +38,11 @@ export interface ICoinListItemResponse {
     partner_symbol: string,
     data_available_from: number
 }
+
+export interface IChartData {
+    high: number;
+    low: number;
+    open: number; 
+    close: number;
+    time: number;
+}

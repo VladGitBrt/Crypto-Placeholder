@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, Subject, map, startWith, takeUntil } from 'rxjs';
 import { CryptoApiService } from 'src/app/core/services/crypto-api.service';
 import { ICoinListResponse } from '../../model/dashboard.model';
 
@@ -9,16 +9,19 @@ import { ICoinListResponse } from '../../model/dashboard.model';
   templateUrl: './market.component.html',
   styleUrls: ['./market.component.css']
 })
-export class MarketComponent implements OnInit {
+export class MarketComponent implements OnInit, OnDestroy {
   searchControl = new FormControl('');
   options: string[] = [];
   filteredOptions?: Observable<string[]>;
+  private unsubscribe$ = new Subject<void>();
+
   @Output() selectedCoinName = new EventEmitter<string>();
 
   constructor(private cryptoApi: CryptoApiService){}
 
   ngOnInit() {
     this.cryptoApi.getCoinNameList()
+    .pipe(takeUntil(this.unsubscribe$))
     .subscribe((response: ICoinListResponse) => {
       this.options = Object.values(response.Data).map(item => item.symbol);
       this.filteredOptions = this.searchControl.valueChanges.pipe(
@@ -36,5 +39,10 @@ export class MarketComponent implements OnInit {
 
   selectedCoin(event: any):void {
     this.selectedCoinName.emit(event.option.value);
+  }
+
+  ngOnDestroy(): void { 
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

@@ -2,7 +2,10 @@
     <div class="chart-container">
         <div id="chart-main"></div>
     </div>
-    <div class="loader-container" *ngIf="(isDataLoaded$ | async) === false">
+    <div class="loader-container" *ngIf="(isChartLoaded$ | async) === false">
         <p>Select coin to see chart</p>
+    </div>
+    <div class="loader-container" *ngIf="isChartDataExists === false">
+        <p>No Chart Data for this coin</p>
     </div>
 </div>

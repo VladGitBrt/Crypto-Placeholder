@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { CryptoApiService } from 'src/app/core/services/crypto-api.service';
-import * as DashboardActions from '../../store/dashboard.actions'
 import { Observable } from 'rxjs';
-import { isLoadingSelector } from '../../store/dashboard.selectors';
-import { AppStateInterface } from 'src/app/core/interfaces/app.state.interface';
+import { DashboardFacade } from '../../store/dashboard-facade.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,18 +10,19 @@ import { AppStateInterface } from 'src/app/core/interfaces/app.state.interface';
 export class DashboardComponent implements OnInit {
   public username: string = 'Loading...';
   isLoading$: Observable<boolean>;
-  constructor(private store$: Store<AppStateInterface>){
-    this.isLoading$ = this.store$.pipe(select(isLoadingSelector));
+  constructor(private dashboardFacade: DashboardFacade){
+    this.isLoading$ = this.dashboardFacade.getLoading();
   }
 
   ngOnInit(): void {
       if(localStorage.getItem('username')){
         this.username = localStorage.getItem('username')!
       }
-      this.store$.dispatch(DashboardActions.getTableData());
+      this.dashboardFacade.getTableData()
   }
 
   selectCoin(coinName: string){
-    this.store$.dispatch(DashboardActions.loadCoinData({coinName}))
+    this.dashboardFacade.getChartData(coinName);
+    this.dashboardFacade.patchCoinData(coinName);
   }
 }

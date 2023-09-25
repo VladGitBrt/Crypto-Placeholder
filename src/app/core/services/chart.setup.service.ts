@@ -1,41 +1,92 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import * as echarts from 'echarts';
+import { AppStateInterface } from '../interfaces/app.state.interface';
+import { chartData } from 'src/app/modules/dashboard/store/dashboard.selectors';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChartSetupService {
-
-  constructor() { }
+  public isChartDataExists$ = new BehaviorSubject<boolean>(false);
+  constructor(private store$: Store<AppStateInterface>) { }
 
   chartSetup(chartContainer: HTMLElement){
-    var chartDom = chartContainer;
-    var myChart = echarts.init(chartDom);
-    var option;
-    
-    option = {
-      xAxis: {
-        data: ['2017-10-24', '2017-10-25', '2017-10-26', '2017-10-27','2017-10-27','2017-10-27','2017-10-27','2017-10-27','2017-10-27']
-      },
-      yAxis: {},
-      series: [
-        {
-          type: 'candlestick',
-          data: [
-            [20, 34, 10, 38],
-            [40, 35, 30, 50],
-            [31, 38, 33, 44],
-            [38, 15, 5, 42],
-            [38, 15, 5, 42],
-            [40, 35, 30, 50],
-            [38, 15, 5, 42],
-            [20, 34, 10, 38],
-            [40, 35, 30, 50],
+    let chartDom = chartContainer;
+    let myChart = echarts.init(chartDom);
+    this.store$.select(chartData)
+    .subscribe((data) => {
+      if(data !== null) {
+        this.isChartDataExists$.next(true);
+        let option = {
+          xAxis: {
+            data: [] as string[],
+            scale: true,
+          },
+          yAxis: {},
+          dataZoom: [
+            {
+              type: 'inside',
+              start: 98,
+              end: 100,
+              minValueSpan: 10
+            },
+            {
+              show: true,
+              type: 'slider',
+              bottom: 60,
+              start: 98,
+              end: 100,
+              minValueSpan: 10
+            }
+          ],
+          series: [
+            {
+              type: 'candlestick',
+              data: [] as [number, number, number, number][]
+            }
           ]
-        }
-      ]
-    };
+        };
+        data.forEach(chart => {
+          let chartUnit: [number, number, number, number] = [chart.close,chart.open,chart.low,chart.high];
+          option.series[0].data.push(chartUnit);
+          option.xAxis.data.push(this.chartTimeSetup(chart.time))
+        })
+        console.log(option)
+        option && myChart.setOption(option);
+      } else {
+        this.isChartDataExists$.next(false);
+        let option = {
+          xAxis: {
+            data: [] as string[]
+          },
+          yAxis: {},
+          series: [
+            {
+              type: 'candlestick',
+              data: [] as [number, number, number, number][]
+            }
+          ]
+        };
+      }
+    })    
     
-    option && myChart.setOption(option);
   }
+
+  chartTimeSetup(timeInSeconds: number): string{
+    const timestamp = timeInSeconds * 1000;
+
+    // Create a new Date object using the timestamp
+    const date = new Date(timestamp);
+
+    // Get the year, month, and day from the Date object
+    const year = date.getFullYear();
+    // JavaScript months are 0-based, so add 1 to the month
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+
+    // Form the date string in the 'YYYY-MM-DD' format
+      return  `${year}-${month}-${day}`;
+    }
 }

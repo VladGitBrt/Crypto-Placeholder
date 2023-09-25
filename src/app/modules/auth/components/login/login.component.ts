@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { IUser } from 'src/app/core/interfaces/user.interface';
+import { IUser, IUserResponse } from 'src/app/core/interfaces/user.interface';
+import { Subject, takeUntil } from 'rxjs';
+import { LocalstorageService } from 'src/app/core/services/localstorage.service';
 
 enum LoginMode {
   Login = 'login',
@@ -19,14 +21,15 @@ type LoginStage = 'login' | 'recovery' | 'confirm' | 'code';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   loginStage: LoginStage  = 'login';
   loginFormGroup = new FormGroup({
     email: new FormControl('',[Validators.required]),
     password: new FormControl('',[Validators.required]),
   })
   showPassword: boolean = false;
-  constructor(private router: Router, private auth: AuthService){}
+  private unsubscribe$ = new Subject<void>();
+  constructor(private router: Router, private auth: AuthService, private localStorageService: LocalstorageService){}
 
   onLoginStageChange(selectedMode: string):void {
     switch(selectedMode) {
@@ -50,17 +53,20 @@ export class LoginComponent {
   }
 
   loginUser(): void {
-    console.log(this.loginFormGroup.value);
       let loginForm: IUser = {
         username: this.loginFormGroup.value.email!,
         password: this.loginFormGroup.value.password!
       }
     this.auth.login(loginForm)
-      .subscribe(data => {
-        localStorage.setItem('token',data.access_token)
-        localStorage.setItem('username',data.username)
-        this.router.navigate(['/dashboard'])
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((data: IUserResponse) => {
+        this.localStorageService.setTokenAndNavigate(data)
       })
+  }
+
+  ngOnDestroy(): void { 
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
 }

@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as DashboardActions from './dashboard.actions'
 import { catchError, map, mergeMap, switchMap } from 'rxjs';
 import { CryptoApiService } from 'src/app/core/services/crypto-api.service';
+import { loadChartDataSuccess } from './dashboard.actions';
 
 @Injectable()
 export class CryptoDataEffects {
@@ -20,10 +21,21 @@ export class CryptoDataEffects {
       switchMap((action) =>
         this.cryptoService.getCoinDataByName(action.coinName).pipe(
           map((coinData) => DashboardActions.loadCoinDataSuccess({ coinData }))
+          )
+        )
+      )
+    );
+
+    loadChartData$ = createEffect(() => 
+    this.actions$.pipe(
+      ofType(DashboardActions.loadChartData),
+      switchMap((action) => 
+        this.cryptoService.getChartData(action.coinName).pipe(
+          map((chartData) => DashboardActions.loadChartDataSuccess({ chartData }))
         )
       )
     )
-  );
+    );
 
     constructor(private actions$: Actions, private cryptoService: CryptoApiService){}
 }

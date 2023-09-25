@@ -8,6 +8,16 @@ export const isLoadingSelector = createSelector(
     (state) => state.isLoading
 );
 
+export const isChartLoaded = createSelector(
+  selectFeature,
+  (state) => state.isChardDataLoaded
+)
+
+export const chartData = createSelector(
+  selectFeature,
+  (state) => state.chartData
+)
+
 export const isSelectedDataLoaded = createSelector(
   selectFeature,
   (state) => state.isCoinDataLoaded

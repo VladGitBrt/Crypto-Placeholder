@@ -3,7 +3,7 @@ import { IDashboardState } from "./dashboard.state.model";
 import * as DashboardActions from './dashboard.actions';
 export const initialState: IDashboardState = {
     isLoading: false, 
-    cryptoData: [ ],
+    cryptoData: [],
     coinData: {
         coinName: "",
         coinPrice: "0",
@@ -18,7 +18,9 @@ export const initialState: IDashboardState = {
         volume24hrPrice: "",
         imageUrl: ""
     },
-    isCoinDataLoaded: false
+    chartData: [],
+    isCoinDataLoaded: false,
+    isChardDataLoaded: false
 };
 
 export const reducers = createReducer(initialState, 
@@ -34,5 +36,12 @@ export const reducers = createReducer(initialState,
         isLoading: false,
         isCoinDataLoaded: true,
         coinData: action.coinData
-    }))   
+    })),
+    on(DashboardActions.loadChartData,(state: IDashboardState) =>({...state, isLoading: true})),
+    on(DashboardActions.loadChartDataSuccess, (state,action) => ({
+        ...state,
+        isLoading: false,
+        isChardDataLoaded: true,
+        chartData: action.chartData
+    })),
 )

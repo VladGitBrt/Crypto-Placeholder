@@ -3,11 +3,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ITableData } from '../../model/dashboard.model';
-import { Store, select } from '@ngrx/store';
-import { AppStateInterface } from 'src/app/core/interfaces/app.state.interface';
-import { Observable } from 'rxjs';
-import { cryptoDataSelector } from '../../store/dashboard.selectors';
-import { CryptoApiService } from 'src/app/core/services/crypto-api.service';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { DashboardFacade } from '../../store/dashboard-facade.service';
 
 
 @Component({
@@ -19,16 +16,17 @@ export class CoinListComponent implements AfterViewInit {
   displayedColumns: string[] = ['number', 'coinName', 'coinPrice', 'dailyPercent','dailyHigh','dailyLow'];
   cryptoData$?: Observable<ITableData[]>;
   dataSource = new MatTableDataSource<ITableData>([]);
+  private unsubscribe$ = new Subject<void>();
 
   @Output() selectedCoin = new EventEmitter<string>();
 
-  constructor(private store: Store<AppStateInterface>, private cryptoApi: CryptoApiService){}
+  constructor(private dashboardFacade: DashboardFacade){}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   ngAfterViewInit() {
-    this.cryptoData$ = this.store.pipe(select(cryptoDataSelector));
-    this.cryptoData$.subscribe(data => {
+    this.cryptoData$ = this.dashboardFacade.getCryptoData();
+    this.cryptoData$.pipe(takeUntil(this.unsubscribe$)).subscribe(data => {
       this.dataSource = new MatTableDataSource<ITableData>(data);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -37,5 +35,10 @@ export class CoinListComponent implements AfterViewInit {
 
   selectCoin(coinName: ITableData['coinName']) {
     this.selectedCoin.emit(coinName);
+  }
+
+  ngOnDestroy(): void { 
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

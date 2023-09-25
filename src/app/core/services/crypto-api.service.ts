@@ -1,17 +1,36 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, of, switchMap } from 'rxjs';
-import { ICoinData, ICoinListResponse, ITableData } from 'src/app/modules/dashboard/model/dashboard.model';
+import { IChartData, ICoinData, ICoinListResponse, ITableData } from 'src/app/modules/dashboard/model/dashboard.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class CryptoApiService {
-
   private apiUrl: string = 'https://min-api.cryptocompare.com/data';
   private searchItemLimit: number = 200;
   constructor(private http: HttpClient) { 
+  }
+
+  getChartData(coinName: string): Observable<IChartData[]> {
+    return this.http.get<any>(`${this.apiUrl}/v2/histoday?fsym=${coinName}&tsym=USD&limit=250`).pipe(
+      map((response)=> {
+        if(response.Response === 'Success'){
+          return response.Data.Data.map((item: any)=> {
+            return {
+              high: item.high,
+              low: item.low,
+              open: item.open,
+              close: item.close,
+              time: item.time
+            }
+          })
+        } else {
+          return null
+        }
+      })
+    )
   }
 
   getCoinNameList(): Observable<ICoinListResponse> {
