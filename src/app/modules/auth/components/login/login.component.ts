@@ -29,7 +29,7 @@ export class LoginComponent implements OnDestroy {
   })
   showPassword: boolean = false;
   private unsubscribe$ = new Subject<void>();
-  constructor(private router: Router, private auth: AuthService, private localStorageService: LocalstorageService){}
+  constructor( private auth: AuthService, private localStorageService: LocalstorageService){}
 
   onLoginStageChange(selectedMode: string):void {
     switch(selectedMode) {

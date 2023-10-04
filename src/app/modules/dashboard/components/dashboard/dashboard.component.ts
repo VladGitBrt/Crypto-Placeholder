@@ -11,7 +11,7 @@ export class DashboardComponent implements OnInit {
   public username: string = 'Loading...';
   isLoading$: Observable<boolean>;
   constructor(private dashboardFacade: DashboardFacade){
-    this.isLoading$ = this.dashboardFacade.getLoading();
+    this.isLoading$ = this.dashboardFacade.loadingSelector$;
   }
 
   ngOnInit(): void {

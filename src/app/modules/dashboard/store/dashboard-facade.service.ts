@@ -10,24 +10,14 @@ import { ICoinData, ITableData } from '../model/dashboard.model';
   providedIn: 'root'
 })
 export class DashboardFacade {
-
+  public loadingSelector$ = this.store$.pipe(select(isLoadingSelector));
+  public isChartLoaded$ = this.store$.select(isChartLoaded);
+  public isSelectedDataLoaded$ = this.store$.select(isSelectedDataLoaded);
+  public coinImageSelector$ = this.store$.pipe(select(coinImageSelector));
+  public coinDataSelector$ = this.store$.pipe(select(coinDataSelector))
+  public cryptoDataSelector$ = this.store$.pipe(select(cryptoDataSelector));
+  public coinPriceSelector$ = this.store$.pipe(select(coinPriceSelector));
   constructor(private store$: Store<AppStateInterface>) { }
-
-  getLoading(): Observable<boolean> {
-    return this.store$.pipe(select(isLoadingSelector));
-  }
-
-  getIsChartLoaded(): Observable<boolean> {
-    return this.store$.select(isChartLoaded);
-  }
-
-  getIsCoinDataLoaded(): Observable<boolean> {
-    return this.store$.select(isSelectedDataLoaded);
-  }
-
-  getCoinImage(): Observable<string> {
-    return this.store$.pipe(select(coinImageSelector));
-  }
 
   getTableData(): void {
     this.store$.dispatch(DashboardActions.getTableData());
@@ -40,19 +30,5 @@ export class DashboardFacade {
   patchCoinData(coinName: string): void {
     this.store$.dispatch(DashboardActions.loadCoinData({coinName}));
   }
-
-  getCoinData():Observable<ICoinData>{
-   return this.store$.pipe(select(coinDataSelector))
-  }
-
-  getCryptoData(): Observable<ITableData[]> {
-    return this.store$.pipe(select(cryptoDataSelector));
-  }
-
-  getCoinPrice(): Observable<string> {
-    return this.store$.pipe(select(coinPriceSelector));
-  }
-
- 
 
 }

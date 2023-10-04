@@ -53,7 +53,6 @@ export class ChartSetupService {
           option.series[0].data.push(chartUnit);
           option.xAxis.data.push(this.chartTimeSetup(chart.time))
         })
-        console.log(option)
         option && myChart.setOption(option);
       } else {
         this.isChartDataExists$.next(false);

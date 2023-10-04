@@ -14,7 +14,7 @@ export class ChartComponent implements OnInit, OnDestroy{
   private unsubscribe$ = new Subject<void>();
 
   constructor( private chartSetupService: ChartSetupService, private dashboardFacade: DashboardFacade){
-    this.isChartLoaded$ = this.dashboardFacade.getIsChartLoaded();
+    this.isChartLoaded$ = this.dashboardFacade.isChartLoaded$;
     this.chartSetupService.isChartDataExists$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(isDataExists => {

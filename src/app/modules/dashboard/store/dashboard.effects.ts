@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as DashboardActions from './dashboard.actions'
-import { catchError, map, mergeMap, switchMap } from 'rxjs';
+import { map, mergeMap, switchMap } from 'rxjs';
 import { CryptoApiService } from 'src/app/core/services/crypto-api.service';
-import { loadChartDataSuccess } from './dashboard.actions';
 
 @Injectable()
 export class CryptoDataEffects {

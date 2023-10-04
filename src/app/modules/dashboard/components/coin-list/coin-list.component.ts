@@ -25,7 +25,7 @@ export class CoinListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   ngAfterViewInit() {
-    this.cryptoData$ = this.dashboardFacade.getCryptoData();
+    this.cryptoData$ = this.dashboardFacade.cryptoDataSelector$;
     this.cryptoData$.pipe(takeUntil(this.unsubscribe$)).subscribe(data => {
       this.dataSource = new MatTableDataSource<ITableData>(data);
       this.dataSource.paginator = this.paginator;

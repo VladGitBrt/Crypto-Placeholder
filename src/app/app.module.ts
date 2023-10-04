@@ -1,4 +1,4 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -9,8 +9,6 @@ import { ApiInterceptor } from './core/interceptors/api.interceptor';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-import { CurrentPipe } from './core/pipes/current.pipe';
-import { TrendDirective } from './core/directives/trend.directive';
 
 @NgModule({
   declarations: [

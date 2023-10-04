@@ -22,12 +22,12 @@ export class CalculatorComponent implements OnDestroy {
   private unsubscribe$ = new Subject<void>();
 
   constructor(private _snackBar: MatSnackBar, private dashboardFacade: DashboardFacade){
-    this.dashboardFacade.getCoinData()
+    this.dashboardFacade.coinDataSelector$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((coinData: ICoinData) => {
         this.coinName = coinData.coinName
       })
-    this.coinPrice$ = this.dashboardFacade.getCoinPrice();
+    this.coinPrice$ = this.dashboardFacade.coinPriceSelector$;
     this.coinPrice$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(price => {
@@ -36,8 +36,8 @@ export class CalculatorComponent implements OnDestroy {
           usdEquivalent: new FormControl(price)
         }); 
       })
-    this.coinImageUrl$ = this.dashboardFacade.getCoinImage();
-    this.isDataLoaded$ = this.dashboardFacade.getIsCoinDataLoaded();
+    this.coinImageUrl$ = this.dashboardFacade.coinImageSelector$;
+    this.isDataLoaded$ = this.dashboardFacade.isSelectedDataLoaded$;
   }
 
   openSnackBar(snackAction: string) {
